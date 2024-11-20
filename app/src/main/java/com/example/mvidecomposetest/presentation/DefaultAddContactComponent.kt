@@ -10,7 +10,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
 class DefaultAddContactComponent(
-    componentContext: ComponentContext
+    componentContext: ComponentContext,
+    val onContactSaved: () -> Unit,
 ) : AddContactComponent, ComponentContext by componentContext {
 
     // для упрощения без DI
@@ -56,6 +57,7 @@ class DefaultAddContactComponent(
             username = username,
             phone = phone
         )
+        onContactSaved()
     }
 
     companion object {
