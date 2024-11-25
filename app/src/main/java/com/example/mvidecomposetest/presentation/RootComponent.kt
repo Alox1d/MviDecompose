@@ -1,4 +1,3 @@
 package com.example.mvidecomposetest.presentation
 
-interface RootComponent {
-}
+interface RootComponent
