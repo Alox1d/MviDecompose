@@ -9,6 +9,7 @@ import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.router.stack.push
 import com.arkivanov.decompose.value.Value
 import com.example.mvidecomposetest.domain.Contact
+import com.example.mvidecomposetest.presentation.RootComponent.Child
 import kotlinx.parcelize.Parcelize
 
 class DefaultRootComponent(
@@ -17,14 +18,14 @@ class DefaultRootComponent(
 
     private val navigation = StackNavigation<Config>()
 
-    val stack: Value<ChildStack<Config, Child>> = childStack(
+    override val stack: Value<ChildStack<*, Child>> = childStack(
         source = navigation,
         initialConfiguration = Config.ContactList,
         handleBackButton = true,
         childFactory = ::child
     )
 
-    fun child(
+    private fun child(
         config: Config,
         componentContext: ComponentContext,
     ): Child {
@@ -65,13 +66,7 @@ class DefaultRootComponent(
         }
     }
 
-    sealed interface Child {
-        class AddContact(val componentContext: AddContactComponent): Child
-        class EditContact(val componentContext: EditContactComponent): Child
-        class ContactList(val componentContext: ContactListComponent): Child
-    }
-
-    sealed interface Config : Parcelable {
+    private sealed interface Config : Parcelable {
         @Parcelize
         object ContactList : Config
 
