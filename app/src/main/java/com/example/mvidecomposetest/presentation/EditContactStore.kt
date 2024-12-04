@@ -10,7 +10,8 @@ interface EditContactStore : Store<EditContactStore.Intent, EditContactStore.Sta
         val phone: String,
     )
 
-    // одноразовые действий
+    // одноразовые действия, которые не меняют стейт экрана
+    // в данном случае для навигации
     sealed interface Label {
 
          object ContactSaved: Label

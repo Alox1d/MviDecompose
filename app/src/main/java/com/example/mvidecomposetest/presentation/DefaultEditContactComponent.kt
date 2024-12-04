@@ -8,6 +8,7 @@ import com.example.mvidecomposetest.core.componentScope
 import com.example.mvidecomposetest.data.RepositoryImpl
 import com.example.mvidecomposetest.domain.Contact
 import com.example.mvidecomposetest.domain.EditContactUseCase
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -32,6 +33,7 @@ class DefaultEditContactComponent(
         }
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     override val model: StateFlow<EditContactStore.State>
         get() = store.stateFlow
 
