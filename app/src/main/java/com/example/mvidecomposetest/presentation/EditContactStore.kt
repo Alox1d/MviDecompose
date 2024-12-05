@@ -3,7 +3,8 @@ package com.example.mvidecomposetest.presentation
 import android.provider.ContactsContract.CommonDataKinds.Phone
 import com.arkivanov.mvikotlin.core.store.Store
 
-interface EditContactStore : Store<EditContactStore.Intent, EditContactStore.State, EditContactStore.Label> {
+interface EditContactStore :
+    Store<EditContactStore.Intent, EditContactStore.State, EditContactStore.Label> {
 
     data class State(
         val username: String,
@@ -14,12 +15,12 @@ interface EditContactStore : Store<EditContactStore.Intent, EditContactStore.Sta
     // в данном случае для навигации
     sealed interface Label {
 
-         object ContactSaved: Label
+        object ContactSaved : Label
     }
 
     sealed interface Intent {
         data class ChangeUsername(val username: String) : Intent
         data class ChangePhone(val phone: String) : Intent
-         object SaveContact : Intent
+        object SaveContact : Intent
     }
 }
