@@ -1,6 +1,5 @@
 package com.example.mvidecomposetest.presentation
 
-import android.provider.ContactsContract.CommonDataKinds.Phone
 import com.arkivanov.mvikotlin.core.store.Store
 
 interface EditContactStore :
@@ -9,6 +8,7 @@ interface EditContactStore :
     data class State(
         val username: String,
         val phone: String,
+        val id: Int,
     )
 
     // одноразовые действия, которые не меняют стейт экрана

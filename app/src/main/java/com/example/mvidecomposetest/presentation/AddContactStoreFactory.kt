@@ -15,9 +15,12 @@ class AddContactStoreFactory(
         storeFactory.create(
             name = "AddContactStore",
             initialState = AddContactStore.State(username = "", phone = ""),
+            executorFactory = ::ExecutorImpl,
             reducer = ReducerImpl,
-            executorFactory = ::ExecutorImpl
-            )
+        )
+
+    fun create(): AddContactStore = object : AddContactStore,
+        Store<AddContactStore.Intent, AddContactStore.State, AddContactStore.Label> by store {}
 
     private sealed interface Action
 
