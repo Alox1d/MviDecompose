@@ -1,6 +1,5 @@
 package com.example.mvidecomposetest.presentation
 
-import android.provider.ContactsContract.CommonDataKinds.Phone
 import com.arkivanov.mvikotlin.core.store.Store
 
 interface AddContactStore :

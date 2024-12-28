@@ -1,18 +1,13 @@
 package com.example.mvidecomposetest.presentation
 
 import com.arkivanov.decompose.ComponentContext
-import com.arkivanov.essenty.statekeeper.consume
+import com.arkivanov.mvikotlin.core.instancekeeper.getStore
 import com.arkivanov.mvikotlin.extensions.coroutines.labels
 import com.arkivanov.mvikotlin.extensions.coroutines.stateFlow
 import com.example.mvidecomposetest.core.componentScope
-import com.example.mvidecomposetest.data.RepositoryImpl
 import com.example.mvidecomposetest.domain.Contact
-import com.example.mvidecomposetest.domain.EditContactUseCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class DefaultEditContactComponent(
@@ -21,7 +16,10 @@ class DefaultEditContactComponent(
     private val onContactSaved: () -> Unit,
 ) : EditContactComponent, ComponentContext by componentContext {
 
-    private lateinit var store: EditContactStore
+    private val store: EditContactStore = instanceKeeper.getStore {
+        val storeFactory = EditContactStoreFactory()
+        storeFactory.create(contact)
+    }
 
     init {
         componentScope().launch {

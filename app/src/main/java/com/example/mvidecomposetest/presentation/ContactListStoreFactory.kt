@@ -1,18 +1,23 @@
 package com.example.mvidecomposetest.presentation
 
+import android.util.Log
 import com.arkivanov.mvikotlin.core.store.Reducer
 import com.arkivanov.mvikotlin.core.store.Store
 import com.arkivanov.mvikotlin.core.store.StoreFactory
 import com.arkivanov.mvikotlin.extensions.coroutines.CoroutineBootstrapper
 import com.arkivanov.mvikotlin.extensions.coroutines.CoroutineExecutor
+import com.arkivanov.mvikotlin.main.store.DefaultStoreFactory
+import com.example.mvidecomposetest.data.RepositoryImpl
 import com.example.mvidecomposetest.domain.Contact
 import com.example.mvidecomposetest.domain.GetContactsUseCase
 import kotlinx.coroutines.launch
 
 class ContactListStoreFactory(
-    val storeFactory: StoreFactory,
-    val getContactsUseCase: GetContactsUseCase,
+
 ) {
+
+    private val storeFactory: StoreFactory = DefaultStoreFactory()
+    private val getContactsUseCase: GetContactsUseCase = GetContactsUseCase(RepositoryImpl)
 
     fun create(): ContactListStore = object : ContactListStore,
         Store<ContactListStore.Intent, ContactListStore.State, ContactListStore.Label> by storeFactory.create(
@@ -21,7 +26,9 @@ class ContactListStoreFactory(
             bootstrapper = BootstrapperImpl(),
             executorFactory = ::ExecutorImpl,
             reducer = ReducerImpl,
-        ) {}
+        ) {}.apply {
+        Log.d("STORE_FACTORY", "CREATED ContactList")
+    }
 
     private sealed interface Action {
 
@@ -71,7 +78,7 @@ class ContactListStoreFactory(
     private object ReducerImpl : Reducer<ContactListStore.State, Msg> {
         override fun ContactListStore.State.reduce(msg: Msg) =
             when (msg) {
-                is Msg.ContactsLoaded -> copy(contactList)
+                is Msg.ContactsLoaded -> copy(contactList = msg.contacts)
             }
     }
 }

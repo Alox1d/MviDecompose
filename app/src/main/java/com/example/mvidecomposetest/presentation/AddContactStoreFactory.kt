@@ -1,15 +1,21 @@
 package com.example.mvidecomposetest.presentation
 
+import android.util.Log
 import com.arkivanov.mvikotlin.core.store.Reducer
 import com.arkivanov.mvikotlin.core.store.Store
 import com.arkivanov.mvikotlin.core.store.StoreFactory
 import com.arkivanov.mvikotlin.extensions.coroutines.CoroutineExecutor
+import com.arkivanov.mvikotlin.main.store.DefaultStoreFactory
+import com.example.mvidecomposetest.data.RepositoryImpl
 import com.example.mvidecomposetest.domain.AddContactUseCase
 
 class AddContactStoreFactory(
-    private val storeFactory: StoreFactory,
-    private val addContactUseCase: AddContactUseCase,
+
 ) {
+    // DI
+    private val storeFactory: StoreFactory = DefaultStoreFactory()
+    private val repository = RepositoryImpl
+    private val addContactUseCase: AddContactUseCase = AddContactUseCase(repository)
 
     private val store: Store<AddContactStore.Intent, AddContactStore.State, AddContactStore.Label> =
         storeFactory.create(
@@ -17,7 +23,9 @@ class AddContactStoreFactory(
             initialState = AddContactStore.State(username = "", phone = ""),
             executorFactory = ::ExecutorImpl,
             reducer = ReducerImpl,
-        )
+        ).apply {
+            Log.d("STORE_FACTORY", "CREATED AddContact")
+        }
 
     fun create(): AddContactStore = object : AddContactStore,
         Store<AddContactStore.Intent, AddContactStore.State, AddContactStore.Label> by store {}
